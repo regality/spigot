@@ -21,7 +21,7 @@ Spigot.prototype.queue = function(job) {
 }
 
 Spigot.prototype.next = function() {
-  if (this.activeThreads >= this.concurrency);
+  if (this.activeThreads >= this.concurrency) return;
   if (this.jobs.length === 0) return;
   this.activeThreads += 1;
   var self = this;
@@ -29,6 +29,14 @@ Spigot.prototype.next = function() {
   this.callback(job, function(err) {
     self.done(err, job);
   });
+}
+
+Spigot.prototype.increaseConcurrency = function() {
+  this.concurrency += 1;
+}
+
+Spigot.prototype.decreaseConcurrency = function() {
+  this.concurrency -= 1;
 }
 
 Spigot.prototype.done = function(err, job) {
