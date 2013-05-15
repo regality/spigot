@@ -41,7 +41,7 @@ Spigot.prototype.decreaseConcurrency = function() {
 
 Spigot.prototype.done = function(err, job) {
   this.activeThreads -= 1;
-  err ? this.emit('error', err, job) : this.emit('done', job);
+  err ? this.emit('error', err, job) : this.emit('done', job, this.jobs.length);
   if (this.jobs.length === 0) return this.emit("empty");
   this.next();
 }
